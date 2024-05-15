@@ -1,5 +1,6 @@
 package com.brandbank.transactions.application.controller;
 
+import com.brandbank.transactions.domain.model.request.UserPatchRequest;
 import com.brandbank.transactions.domain.model.request.UserRequest;
 import com.brandbank.transactions.domain.model.response.UserResponse;
 import com.brandbank.transactions.domain.service.UserService;
@@ -31,8 +32,18 @@ public class UserController {
     }
 
     @GetMapping("/{accountCode}")
-    public ResponseEntity<UserResponse> register(@PathVariable String accountCode){
+    public ResponseEntity<UserResponse> getByAccountCode(@PathVariable String accountCode){
         UserResponse response = service.getUser(accountCode);
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{accountCode}")
+    public ResponseEntity<UserResponse> getByAccountCode(@RequestBody UserPatchRequest userRequest, @PathVariable String accountCode, HttpServletRequest request){
+        UserResponse response = service.edit(accountCode, userRequest);
+        URI location = ServletUriComponentsBuilder.fromRequestUri(request)
+                .path("/{accountCode}")
+                .buildAndExpand(response.accountCode())
+                .toUri();
+        return ResponseEntity.created(location).body(response);
     }
 }

@@ -2,11 +2,14 @@ package com.brandbank.transactions.domain.service.impl;
 
 import com.brandbank.transactions.domain.model.User;
 import com.brandbank.transactions.domain.model.adapter.User2UserResponse;
+import com.brandbank.transactions.domain.model.adapter.UserPatchRequest2User;
 import com.brandbank.transactions.domain.model.adapter.UserRequest2User;
+import com.brandbank.transactions.domain.model.request.UserPatchRequest;
 import com.brandbank.transactions.domain.model.request.UserRequest;
 import com.brandbank.transactions.domain.model.response.UserResponse;
 import com.brandbank.transactions.domain.repository.UserRepository;
 import com.brandbank.transactions.domain.service.UserService;
+import com.brandbank.transactions.domain.validator.register.PatchValidator;
 import com.brandbank.transactions.domain.validator.register.RegisterValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,8 +29,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse register(UserRequest request){
-        RegisterValidator validator = new RegisterValidator(request);
-        validator.validate();
+        new RegisterValidator(request).validate();
+        repository.findByEmail(request.email()).ifPresent(
+           v -> {throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already registred");}
+        );
 
         User user = new UserRequest2User(request).getInstance();
         user.setAccountCode(generateAccountCode());
@@ -36,9 +41,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse edit(UserRequest request) {
-        //TODO
-        return null;
+    public UserResponse edit(String accountCode, UserPatchRequest request) {
+        new PatchValidator(request).validate();
+
+        AtomicReference<UserResponse> response = new AtomicReference<>();
+        repository.findByAccountCode(accountCode).ifPresentOrElse(
+                user -> {
+                    user = new UserPatchRequest2User(user).patch(request);
+                    response.set(new User2UserResponse(repository.save(user)).getInstance());
+                },
+                () -> {
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
+                }
+        );
+        return response.get();
     }
 
     @Override
@@ -54,7 +70,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public String generateAccountCode(){
-        int upper = random.nextInt(100000);
-        return String.format("%05d.%02d", upper, 00);
+        String accountCode = "";
+        do {
+            int upper = random.nextInt(100000);
+            accountCode = String.format("%05d.%02d", upper, 00);
+        } while (!repository.findByAccountCode(accountCode).isPresent());
+        return accountCode;
     }
 }

@@ -1,6 +1,6 @@
 package com.brandbank.transactions.domain.validator.register.rule;
 
-import com.brandbank.transactions.domain.validator.register.RegisterValidator;
+import com.brandbank.transactions.domain.validator.register.ValidationProcess;
 import com.brandbank.transactions.domain.validator.register.Validator;
 
 import java.util.regex.Matcher;
@@ -10,7 +10,7 @@ public class NameValidator extends Validator<String> {
     private static final String NAME_REGEX = "^[a-zA-Z0-9\\s]*$";
     private String name;
 
-    public NameValidator(String name, RegisterValidator registerValidator, Validator<Integer> nextValidation){
+    public NameValidator(String name, ValidationProcess registerValidator, Validator<Integer> nextValidation){
         super(name, registerValidator, nextValidation,"name:Provide a name!");
         this.name=name;
     }

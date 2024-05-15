@@ -1,5 +1,6 @@
 package com.brandbank.transactions.domain.validator.register.rule;
 
+import com.brandbank.transactions.domain.validator.register.ValidationProcess;
 import com.brandbank.transactions.domain.validator.register.Validator;
 import com.brandbank.transactions.domain.validator.register.RegisterValidator;
 
@@ -7,7 +8,7 @@ public class AgeValidator extends Validator<Integer> {
     private static final Integer ZERO = 0;
     private Integer age;
 
-    public AgeValidator(Integer age, RegisterValidator registerValidator, Validator<?> nextValidation){
+    public AgeValidator(Integer age, ValidationProcess registerValidator, Validator<?> nextValidation){
         super(age, registerValidator, nextValidation,"age:Provide an age!");
         this.age=age;
     }

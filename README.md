@@ -68,30 +68,30 @@ The project uses Github Projects as a development board to save all features on 
 ```mermaid
 erDiagram
     TB_USER {
-        String id PK;
-        String accountCode;
-        String password;
-        Integer role;
-        String email;
-        String name;
-        Integer age;
-        String address;
-        Datetime createdAt;
+        String id PK,
+        String accountCode,
+        String password,
+        Integer role,
+        String email,
+        String name,
+        Integer age,
+        String address,
+        Datetime createdAt
     }
     
     TB_CUSTODY {
-        String id PK;
-        BigDecimal balance;
-        BigDecimal balance_limit;
-        String user_id FK;
+        String id PK,
+        BigDecimal balance,
+        BigDecimal balance_limit,
+        String user_id FK
     }
     
     TB_TRANSACTIONY {
-        String id PK;
-        Integer movement;
-        BigDecimal movementValue;
-        Datetime createdAt;
-        String custody_id FK;
+        String id PK,
+        Integer movement,
+        BigDecimal movementValue,
+        Datetime createdAt,
+        String custody_id FK
     }
     
     TB_USER ||--|| TB_CUSTODY : has

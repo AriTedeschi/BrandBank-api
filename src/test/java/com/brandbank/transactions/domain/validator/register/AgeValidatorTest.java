@@ -16,7 +16,7 @@ class AgeValidatorTest {
     @ParameterizedTest
     @MethodSource("generateIncorrect")
     void shouldFail(Integer age){
-        UserRequest request = new UserRequest(null,null,age, null);
+        UserRequest request = new UserRequest(null,null, null,age,null);
         RegisterValidator registerValidator = new RegisterValidator(request);
         new AgeValidator(request.age(), registerValidator,null).validate();
         assertTrue(registerValidator.containsError());
@@ -25,7 +25,7 @@ class AgeValidatorTest {
     @ParameterizedTest
     @MethodSource("generate")
     void shouldPass(Integer age){
-        UserRequest request = new UserRequest(null,null,age, null);
+        UserRequest request = new UserRequest(null,null, null,age,null);
         RegisterValidator registerValidator = new RegisterValidator(request);
         new AgeValidator(request.age(), registerValidator,null).validate();
         assertFalse(registerValidator.containsError());

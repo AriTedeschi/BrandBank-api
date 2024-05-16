@@ -13,7 +13,7 @@ class EmailValidatorTest {
     @ParameterizedTest
     @CsvSource(value={"null","@","@gmail.com", "aaaaaa@gmail", "aaaa-aa@.com"},nullValues={"null"})
     void shouldFail(String email){
-        UserRequest request = new UserRequest(email,null,null, null);
+        UserRequest request = new UserRequest(email,null,null, null, null);
         RegisterValidator registerValidator = new RegisterValidator(request);
         new EmailValidator(request.email(), registerValidator,null).validate();
         assertTrue(registerValidator.containsError());
@@ -22,7 +22,7 @@ class EmailValidatorTest {
     @ParameterizedTest
     @CsvSource({"a@gmail.com","a.a@hotmail.com", "b@yahoo.com", "c@outlook.com"})
     void shouldPass(String email){
-        UserRequest request = new UserRequest(email,null,null, null);
+        UserRequest request = new UserRequest(email,null,null, null, null);
         RegisterValidator registerValidator = new RegisterValidator(request);
         new EmailValidator(request.email(), registerValidator,null).validate();
         assertFalse(registerValidator.containsError());

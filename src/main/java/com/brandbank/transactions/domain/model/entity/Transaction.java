@@ -19,9 +19,9 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private BigDecimal value;
+    private BigDecimal movementValue;
 
-    private MovimentationType moviment;
+    private MovimentationType movement;
     private LocalDateTime createdAt;
 
     @ManyToOne

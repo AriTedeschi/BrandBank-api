@@ -64,16 +64,34 @@ The project uses Github Projects as a development board to save all features on 
 
 
 ## 🔧 Dependencies
-You need Java 17 and a Postgrees database to run the projects
+The project requires Maven, Java 17 and a Postgrees database to run the projects
 Thus, the projects uses those enviroment keys:
-
 ```
 JWT_SECRET=;
-SPRING_DATASOURCE_DBNAME=//<ip>:<port>/brandbank?currentSchema=public;
+SPRING_DATASOURCE_IP=<ip>:<port>
+SPRING_DATASOURCE_DBNAME=/brandbank;
+SPRING_DATASOURCE_SCHEAMA=?currentSchema=public;
 SPRING_DATASOURCE_USERNAME=;
 SPRING_DATASOURCE_PASSWORD=;
 ```
 
+The project provides a "dev" execution profile that uses the H2 in-memory database, in this profile it is not necessary to perform any connection configuration
+
+To use the dev profile, change the **[application.properties](https://github.com/AriTedeschi/BrandBank-api/blob/main/src/main/resources/application.properties):** file as follows
+```
+spring.profiles.active=dev
+```
+
 ## 🚀 Running
 
-TODO
+The api provides an docker-compose.yml which allows a quick setup for a postgres db.
+
+Once configured the database, in order to generate projects's binaries run the following command on projects's root:
+
+```
+mvn install
+```
+
+Once running go to Swagger-ui endpoint to use
+**[Swagger-ui](http://localhost:8080/swagger-ui/index.html):**
+

@@ -13,4 +13,8 @@ public enum MovimentationType {
     public String getMovimentation(){
         return this.mov;
     }
+
+    public static boolean isDEBT(MovimentationType move){
+        return move.equals(MovimentationType.DEBT);
+    }
 }

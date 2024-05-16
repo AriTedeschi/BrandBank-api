@@ -1,12 +1,12 @@
 package com.brandbank.transactions.domain.service.impl;
 
-import com.brandbank.transactions.domain.model.User;
+import com.brandbank.transactions.domain.model.entity.User;
 import com.brandbank.transactions.domain.model.adapter.User2UserResponse;
 import com.brandbank.transactions.domain.model.adapter.UserPatchRequest2User;
 import com.brandbank.transactions.domain.model.adapter.UserRequest2User;
 import com.brandbank.transactions.domain.model.request.UserPatchRequest;
 import com.brandbank.transactions.domain.model.request.UserRequest;
-import com.brandbank.transactions.domain.model.response.UserResponse;
+import com.brandbank.transactions.application.response.UserResponse;
 import com.brandbank.transactions.domain.repository.UserRepository;
 import com.brandbank.transactions.domain.service.UserService;
 import com.brandbank.transactions.domain.validator.register.PatchValidator;
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
         do {
             int upper = random.nextInt(100000);
             accountCode = String.format("%05d.%02d", upper, 00);
-        } while (!repository.findByAccountCode(accountCode).isPresent());
+        } while (repository.findByAccountCode(accountCode).isPresent());
         return accountCode;
     }
 }

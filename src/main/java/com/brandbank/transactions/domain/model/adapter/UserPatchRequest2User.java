@@ -1,6 +1,6 @@
 package com.brandbank.transactions.domain.model.adapter;
 
-import com.brandbank.transactions.domain.model.User;
+import com.brandbank.transactions.domain.model.entity.User;
 import com.brandbank.transactions.domain.model.request.UserPatchRequest;
 
 import static java.util.Objects.isNull;

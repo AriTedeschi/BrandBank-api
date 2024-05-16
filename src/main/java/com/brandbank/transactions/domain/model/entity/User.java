@@ -1,4 +1,4 @@
-package com.brandbank.transactions.domain.model;
+package com.brandbank.transactions.domain.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user")
+@Table(name = "TB_USER")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,9 +14,11 @@ import java.time.LocalDateTime;
 @Builder
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
     private String accountCode;
+    private String password;
+    private UserRole role;
     private String email;
     private String name;
     private Integer age;

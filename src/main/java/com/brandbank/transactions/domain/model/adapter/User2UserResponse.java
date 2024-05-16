@@ -1,7 +1,7 @@
 package com.brandbank.transactions.domain.model.adapter;
 
-import com.brandbank.transactions.domain.model.User;
-import com.brandbank.transactions.domain.model.response.UserResponse;
+import com.brandbank.transactions.domain.model.entity.User;
+import com.brandbank.transactions.application.response.UserResponse;
 
 public class User2UserResponse {
     private UserResponse instance;

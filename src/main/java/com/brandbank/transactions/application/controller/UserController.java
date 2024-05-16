@@ -2,7 +2,7 @@ package com.brandbank.transactions.application.controller;
 
 import com.brandbank.transactions.domain.model.request.UserPatchRequest;
 import com.brandbank.transactions.domain.model.request.UserRequest;
-import com.brandbank.transactions.domain.model.response.UserResponse;
+import com.brandbank.transactions.application.response.UserResponse;
 import com.brandbank.transactions.domain.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class UserController {
         this.service = service;
     }
 
-    @PostMapping()
+    @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@RequestBody UserRequest userRequest, HttpServletRequest request){
         UserResponse response = service.register(userRequest);
         URI location = ServletUriComponentsBuilder.fromRequestUri(request)

@@ -36,8 +36,8 @@ public class TransactionServiceImpl implements TransactionService {
         custodyService.debt(user_uuid,value);
 
         Transaction transaction = new Transaction();
-        transaction.setMoviment(MovimentationType.DEBT);
-        transaction.setValue(value);
+        transaction.setMovement(MovimentationType.DEBT);
+        transaction.setMovementValue(value);
         transaction.setCustody(custodyService.getCustodyOfOwner(user_uuid));
         transaction.setCreatedAt(LocalDateTime.now());
         repository.save(transaction);
@@ -54,8 +54,8 @@ public class TransactionServiceImpl implements TransactionService {
         custodyService.credit(user_uuid,value);
 
         Transaction transaction = new Transaction();
-        transaction.setMoviment(MovimentationType.CREDT);
-        transaction.setValue(value);
+        transaction.setMovement(MovimentationType.CREDT);
+        transaction.setMovementValue(value);
         transaction.setCustody(custodyService.getCustodyOfOwner(user_uuid));
         transaction.setCreatedAt(LocalDateTime.now());
         repository.save(transaction);

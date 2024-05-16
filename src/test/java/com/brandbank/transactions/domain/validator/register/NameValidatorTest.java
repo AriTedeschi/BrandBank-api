@@ -13,7 +13,7 @@ class NameValidatorTest {
     @ParameterizedTest
     @CsvSource(value={"null","_Arthur","Vitor#Ribeiro", "José@"},nullValues={"null"})
     void shouldFail(String name){
-        UserRequest request = new UserRequest(null,name,null, null);
+        UserRequest request = new UserRequest(null,name,null, null, null);
         RegisterValidator registerValidator = new RegisterValidator(request);
         new NameValidator(request.name(), registerValidator,null).validate();
         assertTrue(registerValidator.containsError());
@@ -22,7 +22,7 @@ class NameValidatorTest {
     @ParameterizedTest
     @CsvSource({"Ari","Rafael Justo", "ViNiCIUS"})
     void shouldPass(String name){
-        UserRequest request = new UserRequest(null,name,null, null);
+        UserRequest request = new UserRequest(null,name,null, null, null);
         RegisterValidator registerValidator = new RegisterValidator(request);
         new NameValidator(request.name(), registerValidator,null).validate();
         assertFalse(registerValidator.containsError());

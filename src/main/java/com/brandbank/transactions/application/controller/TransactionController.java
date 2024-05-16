@@ -4,6 +4,12 @@ import com.brandbank.transactions.application.response.TransactionResponse;
 import com.brandbank.transactions.application.response.UserResponse;
 import com.brandbank.transactions.domain.service.TransactionService;
 import com.brandbank.transactions.infra.sercurity.TokenService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +35,13 @@ public class TransactionController {
     }
 
     @PostMapping("/debt/{value}")
+    @Operation(summary = "Debt value from authenticated user",
+            parameters = { @Parameter(in = ParameterIn.PATH, name = "value", description = "Transactions value", example = "1.25") },
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Successful"),
+                    @ApiResponse(responseCode = "400", description = "Invalid value"),
+                    @ApiResponse(responseCode = "404", description = "User not found")
+            })
     public ResponseEntity<UserResponse> debt(@PathVariable String value, HttpServletRequest request){
         String accountCode = retriveAccountCode(request);
 
@@ -37,6 +50,13 @@ public class TransactionController {
     }
 
     @PostMapping("/credt/{value}")
+    @Operation(summary = "Credit value from authenticated user",
+            parameters = { @Parameter(in = ParameterIn.PATH, name = "value", description = "Transactions value", example = "1.25") },
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Successful"),
+                    @ApiResponse(responseCode = "400", description = "Invalid value"),
+                    @ApiResponse(responseCode = "404", description = "User not found")
+            })
     public ResponseEntity<UserResponse> credt(@PathVariable String value, HttpServletRequest request){
         String accountCode = retriveAccountCode(request);
 
@@ -45,6 +65,11 @@ public class TransactionController {
     }
 
     @GetMapping("")
+    @Operation(summary = "Get all users transactions",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Successful", content = @Content(schema = @Schema(implementation = Page.class))),
+                    @ApiResponse(responseCode = "404", description = "User not found")
+            })
     public ResponseEntity<Page<TransactionResponse>> listTransactions(
               @RequestParam(value = "page", defaultValue = "0") 		Integer page,
               @RequestParam(value = "linesPerPage", defaultValue = "10")Integer linesPerPage,

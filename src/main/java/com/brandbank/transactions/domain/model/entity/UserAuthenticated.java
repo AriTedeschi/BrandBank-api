@@ -1,5 +1,6 @@
 package com.brandbank.transactions.domain.model.entity;
 
+import com.brandbank.transactions.domain.model.entity.enums.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

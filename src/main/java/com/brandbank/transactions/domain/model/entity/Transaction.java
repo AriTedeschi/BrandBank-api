@@ -1,31 +1,30 @@
 package com.brandbank.transactions.domain.model.entity;
 
-import com.brandbank.transactions.domain.model.entity.enums.UserRole;
+import com.brandbank.transactions.domain.model.entity.enums.MovimentationType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "TB_USER")
+@Table(name = "TB_TRANSACTION")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User {
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String accountCode;
-    private String password;
-    private UserRole role;
-    private String email;
-    private String name;
-    private Integer age;
-    private String address;
+
+    private BigDecimal value;
+
+    private MovimentationType moviment;
     private LocalDateTime createdAt;
 
-    @OneToOne(mappedBy = "owner")
+    @ManyToOne
+    @JoinColumn(name="custody_id", nullable=false)
     private Custody custody;
 }

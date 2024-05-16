@@ -2,7 +2,7 @@ package com.brandbank.transactions.domain.model.adapter;
 
 import com.brandbank.transactions.domain.model.entity.User;
 import com.brandbank.transactions.domain.model.request.UserRequest;
-import com.brandbank.transactions.domain.model.entity.UserRole;
+import com.brandbank.transactions.domain.model.entity.enums.UserRole;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserRequest2User{

@@ -1,4 +1,4 @@
-package com.brandbank.transactions.domain.model.entity;
+package com.brandbank.transactions.domain.model.entity.enums;
 
 public enum UserRole {
     ADMIN("admin"),

@@ -123,7 +123,7 @@ The api provides a bunch of docker-compose files which allows a quick setup for 
 
 ### :hammer_and_wrench: Local run
 
-Once you installed docker, open the CLI at directory `/docker` and run docker-compose command to start up.
+Once you installed docker, open the command prompt at directory `/docker` and run docker-compose command to start up.
 ```
 docker compose up
 ```
@@ -137,7 +137,7 @@ With that it is possible to test using swagger at **[Swagger-ui](http://localhos
 
 To clean up after execution use:
 ```
-docker compose up
+docker compose down
 ```
 
 ### :test_tube: Enviroment run

@@ -119,14 +119,76 @@ spring.profiles.active=dev
 
 ## 🚀 Running
 
-The api provides an docker-compose.yml which allows a quick setup for a postgres db.
+The api provides a bunch of docker-compose files which allows a quick setup for a local running or a test enviroment running.
 
-Once configured the database, in order to generate projects's binaries run the following command on projects's root:
+### :hammer_and_wrench: Local run
+
+Once you installed docker, open the CLI at directory `/docker` and run docker-compose command to start up.
+```
+docker compose up
+```
+
+By running this command it uses 3 files
+- Dockerfile: a custom image which compiles project's binaries and runs using a jre image 
+- docker-compose.yml: which names the custom docker file
+- docker-compose.override.yml: which segregates containers configurations such as enviroments variables, profiles, exposed ports and more. It automatically runs after docker-compose.yml. By default it runs at `:8080`but it is possible to change setting up this file.
+
+With that it is possible to test using swagger at **[Swagger-ui](http://localhost:8080/swagger-ui/index.html):**
+
+To clean up after execution use:
+```
+docker compose up
+```
+
+### :test_tube: Enviroment run
+
+To simulate an enviroment it uses `postgree's` database to persist data even after closing the application. 
+
+This approach requires an additional configuration of docker. It uses others features of docker such as secrets which requires enabbling `docker swarm`.
+
+Currently to enable docker swarm run the command below, it will not only enable swarm but also create a `manager node` which will run our `services`. At docker swarm services are equivalent to containers in terms of abstraction, check out docker docs to explore about it.
+```
+docker swarm init 
+```
+Once enabled swarm, the next step is to set up services' secrets running the commands below in CLI.
 
 ```
-mvn install
+echo "dbUser" | docker secret create psql_user -
 ```
 
-Once running go to Swagger-ui endpoint to use
-**[Swagger-ui](http://localhost:8080/swagger-ui/index.html):**
+```
+echo "dbname" | docker secret create psql_db -
+```
+```
+echo "mydbpass" | docker secret create psql_password -
+```
+```
+echo "bank" | docker secret create psql_scheama -
+```
 
+Then run the command below to startup the enviroment.
+
+```
+docker stack deploy -c docker-compose.test.yml test_env
+```
+
+To check whether both postgree and application are up run the command below
+```
+docker service ps test_env_postgres test_env_spring-brandbank-api
+```
+
+With that it is possible to test using swagger at **[Swagger-ui](http://localhost:8080/swagger-ui/index.html):**
+
+In order to clean up after execution use:
+
+```
+docker stack rm test_env
+```
+
+```
+docker volume rm test_env_psql-data
+```
+
+```
+docker secret rm psql_db psql_password psql_scheama psql_user
+```

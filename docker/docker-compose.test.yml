@@ -1,0 +1,45 @@
+#Test enviroment (CI)
+#Requires docker swarm enabled!
+#Requires secrets creation previously!
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      # Bing mount to host directory (linux only)
+      #- ./sample-data:/var/lib/postgresql/data
+      - psql-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER= /run/secrets/psql_user
+      - POSTGRES_DB= /run/secrets/psql_db
+      - POSTGRES_PASSWORD= /run/secrets/psql_password
+
+  spring-brandbank-api:
+      image: aritedeschi/spring-17-buildnrun
+      ports:
+        - "8080:8080"
+      environment:
+        - SPRING_PROFILE= prod
+        - SPRING_DATASOURCE_IP= localhost:5432
+        - SPRING_DATASOURCE_DBNAME= /run/secrets/psql_db
+        - SPRING_DATASOURCE_SCHEAMA=
+        - SPRING_DATASOURCE_USERNAME= /run/secrets/psql_user
+        - SPRING_DATASOURCE_PASSWORD= /run/secrets/psql_password
+      depends_on:
+        - postgres
+
+volumes:
+  psql-data:
+
+secrets:
+  psql_user:
+    external: true
+  psql_db:
+    external: true
+  psql_password:
+    external: true
+  psql_scheama:
+    external: true
